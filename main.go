@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
 	"cekzakat/routes"
+
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
