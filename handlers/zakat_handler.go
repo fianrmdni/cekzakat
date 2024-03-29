@@ -2,19 +2,23 @@ package handlers
 
 import (
 	"cekzakat/entity"
-	"fmt"
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-func calculateZakat(ZakatType string, harta float64) float64 {
+func calculateZakat(ZakatType string, harta float64) (float64, error) {
 	nisab := getNisab(ZakatType)
+
+	if nisab < 0 || harta < 0 {
+		return 0, errors.New("tipe zakat tidak sesuai / harta tidak sesuai")
+	}
 	if harta >= nisab {
 		zakat := harta * 0.025
-		return zakat
+		return zakat, nil
 	}
-	return 0
+	return 0, nil
 }
 
 func getNisab(ZakatType string) float64 {
@@ -37,18 +41,16 @@ func ZakatHandler(c echo.Context) error {
 		return err
 	}
 
-	switch {
-	case newZakat.ZakatType == "penghasilan":
-		calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
-	case newZakat.ZakatType == "tabungan":
-		calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
-	case newZakat.ZakatType == "emas":
-		calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
-	case newZakat.ZakatType == "perak":
-		calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
-	default:
-		fmt.Println("default")
+	response, err := calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, newZakat)
+
+
+	responseZakat := entity.ZakatResponse{
+		Zakat: response,
+	}
+
+	return c.JSON(http.StatusOK, responseZakat)
 
 }
