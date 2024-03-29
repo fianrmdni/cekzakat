@@ -9,7 +9,11 @@ import (
 )
 
 func calculateZakat(ZakatType string, harta float64) (float64, error) {
-	nisab := getNisab(ZakatType)
+	hargaEmas, err := CallHargaEmasAPI()
+	if err != nil {
+		return 0, errors.New("gagal mendapatakan harga emas " + err.Error())
+	}
+	nisab := getNisab(ZakatType, hargaEmas)
 	if nisab < 0 || harta < 0 {
 		return 0, errors.New("nisab tidak terpenuhi / harta tidak sesuai")
 	}
@@ -20,11 +24,11 @@ func calculateZakat(ZakatType string, harta float64) (float64, error) {
 	return 0, nil
 }
 
-func getNisab(ZakatType string) float64 {
+func getNisab(ZakatType string, hargaEmas float64) float64 {
 	if ZakatType == "penghasilan" {
 		return 0
 	} else if ZakatType == "tabungan" {
-		return 1220000 * 85
+		return hargaEmas * 85
 	} else if ZakatType == "emas" {
 		return 85
 	} else if ZakatType == "perak" {
