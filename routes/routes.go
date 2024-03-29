@@ -6,5 +6,6 @@ import (
 )
 
 func RegisterRoutes(e *echo.Echo) {
+	e.POST("/register", appHandler.RegisterHandler)
     e.POST("/hitung-zakat", appHandler.ZakatHandler)
 }
