@@ -1,6 +1,7 @@
 package entity
 
 type Zakat struct {
+	Username    string
 	ZakatType   string
 	JumlahZakat float64
 }

@@ -39,6 +39,14 @@ func ZakatHandler(c echo.Context) error {
 	if err := c.Bind(newZakat); err != nil {
 		return err
 	}
+	
+	if !IsLogin(newZakat.Username){
+		errNotLogin := entity.RensponseZakat{
+			Message: "user belum login / tidak terdaftar",
+		}
+		return c.JSON(http.StatusInternalServerError, errNotLogin)
+	}
+
 	response, err := calculateZakat(newZakat.ZakatType, newZakat.JumlahZakat)
 	if err != nil {
 		errZakat := entity.RensponseZakat{
