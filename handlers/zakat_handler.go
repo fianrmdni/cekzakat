@@ -8,20 +8,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func calculateZakat(ZakatType string, harta float64) (float64, error) {
+func calculateZakat(ZakatType string, harta float64) (float64, string, error) {
 	hargaEmas, err := CallHargaEmasAPI()
 	if err != nil {
-		return 0, errors.New("gagal mendapatkan harga emas: " + err.Error())
+		return 0, "", errors.New("gagal mendapatkan harga emas: " + err.Error())
 	}
 	nisab := getNisab(ZakatType, hargaEmas)
 	if nisab < 0 || harta < 0 {
-		return 0, errors.New("nisab tidak terpenuhi / harta tidak sesuai")
+		return 0, "", errors.New("nisab tidak terpenuhi / harta tidak sesuai")
 	}
 	if harta >= nisab {
 		zakat := harta * 0.025
-		return zakat, nil
+		return zakat, "Perhitungan sukses! hartamu mencapai nisab, kamu wajib bayar zakat", nil
 	}
-	return 0, nil
+	return 0, "", nil
 }
 
 func getNisab(ZakatType string, hargaEmas float64) float64 {
