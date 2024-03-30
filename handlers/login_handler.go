@@ -51,6 +51,7 @@ func LoginHandler(c echo.Context) error {
 	users[user.Username] = entity.User{
 		Username: user.Username,
 		Password: user.Password,
+		IsLogin: true,
 	}
 	userResp.Message = "Berhasil Login"
 	return c.JSON(http.StatusOK, userResp)
