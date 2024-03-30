@@ -11,7 +11,7 @@ func RegisterRoutes(e *echo.Echo) {
 	mainApp := e.Group("/cekzakat")
 
 	mainApp.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost", "https://cekzakat.vercel.app", "http://127.0.0.1"},
+		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 	}))
