@@ -1,10 +1,13 @@
 package routes
 
 import (
-	"github.com/labstack/echo/v4"
 	appHandler "cekzakat/handlers"
+
+	"github.com/labstack/echo/v4"
 )
 
 func RegisterRoutes(e *echo.Echo) {
-    e.POST("/hitung-zakat", appHandler.ZakatHandler)
+	mainApp := e.Group("/cekzakat")
+	mainApp.POST("/hitung-zakat", appHandler.ZakatHandler)
+
 }
