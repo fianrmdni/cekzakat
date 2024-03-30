@@ -5,7 +5,7 @@ type Zakat struct {
 	JumlahZakat float64
 }
 
-type RensponseZakat struct {
+type ResponseZakat struct {
 	Zakat   float64
 	Message string
 }
