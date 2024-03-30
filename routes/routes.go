@@ -11,6 +11,6 @@ func RegisterRoutes(e *echo.Echo) {
 	mainApp.POST("/hitung-zakat", appHandler.ZakatHandler)
 	mainApp.POST("/register", appHandler.RegisterHandler)
 	mainApp.POST("/login", appHandler.LoginHandler)
-	mainApp.POST("/login", appHandler.LogoutHandler)
+	mainApp.POST("/logout", appHandler.LogoutHandler)
 
 }
